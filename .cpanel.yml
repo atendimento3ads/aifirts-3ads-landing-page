@@ -1,5 +1,5 @@
 ---
 deployment:
   tasks:
-    - export DEPLOYPATH=$HOME/public_html/
+    - export DEPLOYPATH=/home1/carlo589/iafirst.3ads.com.br/
     - /bin/cp -f index.html $DEPLOYPATH
