@@ -47,7 +47,14 @@ $goal    = trim($_POST['goal']     ?? '');
 
 if ($nome === '' || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
     http_response_code(422);
-    echo json_encode(['success' => false, 'message' => 'Dados inválidos']);
+    echo json_encode([
+        'success'    => false,
+        'message'    => 'Dados inválidos',
+        'erro'       => 'POST_keys=' . implode(',', array_keys($_POST))
+                        . ' | name=[' . $nome . '] email=[' . $email . ']'
+                        . ' | ctype=' . ($_SERVER['CONTENT_TYPE'] ?? '?')
+                        . ' | raw=' . substr(file_get_contents('php://input'), 0, 200),
+    ], JSON_UNESCAPED_UNICODE);
     exit;
 }
 
