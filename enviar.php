@@ -61,7 +61,7 @@ if (is_file($lock) && (time() - filemtime($lock)) < 15) {
 }
 @touch($lock);
 
-$destino   = 'carloscosta.int@gmail.com';
+$destino   = 'barretosantosthiago@gmail.com';
 $remetente = 'noreply@iafirst.3ads.com.br';
 $assunto   = 'Nova aplicação — Mentoria AI FIRST';
 
