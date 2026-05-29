@@ -1,0 +1,42 @@
+# ===== 3ADS — AI FIRST · segurança e performance =====
+
+# Não listar diretórios
+Options -Indexes
+ServerSignature Off
+
+# Força HTTPS
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteCond %{HTTPS} off
+  RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+</IfModule>
+
+# Cabeçalhos de segurança
+<IfModule mod_headers.c>
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set X-Frame-Options "SAMEORIGIN"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set Permissions-Policy "geolocation=(), microphone=(), camera=(), interest-cohort=()"
+  Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
+  # Content-Security-Policy: restringe origens de scripts/recursos.
+  # Se algo deixar de renderizar, comente esta linha e me avise.
+  Header always set Content-Security-Policy "default-src 'self'; base-uri 'self'; object-src 'none'; img-src 'self' data: blob:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: blob: https://fonts.gstatic.com; script-src 'self' 'unsafe-inline' blob:; connect-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com; form-action 'self'; frame-ancestors 'self'"
+</IfModule>
+
+# Bloqueia acesso a arquivos sensíveis
+<FilesMatch "(^\.|\.(yml|yaml|md|json|sh|bak|log|ini|sql|env)$)">
+  Require all denied
+</FilesMatch>
+# Permite o ld+json não é arquivo; .json acima bloqueia eventuais sobras
+<Files "enviar.php">
+  Require all granted
+</Files>
+
+# Cache de estáticos
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType image/jpeg "access plus 1 month"
+  ExpiresByType image/png "access plus 1 month"
+  ExpiresByType image/svg+xml "access plus 1 month"
+  ExpiresByType font/woff2 "access plus 1 year"
+</IfModule>
